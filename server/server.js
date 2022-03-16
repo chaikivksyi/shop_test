@@ -1,16 +1,17 @@
 const express = require('express');
+const mongoose = require('mongoose');
 
 const app = express();
+require('dotenv').config();
+const port = process.env.PORT || 3002;
 
+mongoose.connect(process.env.MONGO_URL)
+    .then(() => {console.log('success connect db');})
+    .catch(err => {console.log(err);})
 
-app.get('/', (req, res) => {
-    res.send([
-        {id: 1}
-    ])
-})
+app.use(express.json());
+app.use('/', require('./routes/router'));
 
-
-
-app.listen(5005, () => {
-    console.log('Server working: http://localhost:5005');
+app.listen(port, () => {
+    console.log(`Server working: http://localhost:${port}`);
 })
