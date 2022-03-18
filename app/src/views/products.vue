@@ -37,8 +37,8 @@
         <td>{{ product.price }}</td>
         <td>@{{ product.category }}</td>
         <td>
-          <button class="btn btn-danger">X</button>
-          <button class="btn btn-success">I</button>
+          <button class="btn btn-danger" @click="deleteProduct(product._id)">X</button>
+          <button class="btn btn-success" @click="this.$router.push({name: 'Product', params: {id: product._id}})">I</button>
         </td>
       </tr>
       </tbody>
@@ -66,6 +66,13 @@ export default {
     addProduct(product) {
       console.log(JSON.stringify(product))
       productsResources.addProduct(product).then(response => {
+        console.log(response)
+      }).catch(err => {
+        console.log(err)
+      });
+    },
+    deleteProduct(id) {
+      productsResources.deleteProduct(id).then(response => {
         console.log(response)
       }).catch(err => {
         console.log(err)
