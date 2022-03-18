@@ -20,34 +20,41 @@
       </div>
       <button @click="addProduct(product)" class="btn btn-primary w-25">Submit</button>
     </form>
-    <table class="table mt-5">
-      <thead>
-      <tr>
-        <th scope="col">#</th>
-        <th scope="col">Title</th>
-        <th scope="col">Price</th>
-        <th scope="col">Category</th>
-        <th scope="col">Actions</th>
-      </tr>
-      </thead>
-      <tbody>
-      <tr v-for="(product, index) of products" :key="product._id">
-        <th scope="row">{{ ++index }}</th>
-        <td>{{ product.title }}</td>
-        <td>{{ product.price }}</td>
-        <td>@{{ product.category }}</td>
-        <td>
-          <button class="btn btn-danger" @click="deleteProduct(product._id)">X</button>
-          <button class="btn btn-success" @click="this.$router.push({name: 'Product', params: {id: product._id}})">I</button>
-        </td>
-      </tr>
-      </tbody>
-    </table>
+    <template v-if="!loader">
+      <table class="table mt-5">
+        <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Title</th>
+          <th scope="col">Price</th>
+          <th scope="col">Category</th>
+          <th scope="col">Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr v-for="(product, index) of products" :key="product._id">
+          <th scope="row">{{ ++index }}</th>
+          <td>{{ product.title }}</td>
+          <td>{{ product.price }}</td>
+          <td>@{{ product.category }}</td>
+          <td>
+            <button class="btn btn-danger" @click="deleteProduct(product._id)">X</button>
+            <button class="btn btn-success" @click="this.$router.push({name: 'Product', params: {id: product._id}})">I</button>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </template>
+    <template v-else>
+      <Loader />
+    </template>
   </div>
 </template>
 
 <script>
 import productsResources from "@/resources/products";
+import Loader from "@/components/Loader";
+
 
 export default {
   name: "app-products",
@@ -59,14 +66,19 @@ export default {
         price: 0,
         category: 1,
         img: 'default.jpg'
-      }
+      },
+      loader: true,
     }
+  },
+  components: {
+    Loader
   },
   methods: {
     addProduct(product) {
       console.log(JSON.stringify(product))
       productsResources.addProduct(product).then(response => {
         console.log(response)
+        this.products.push(response.data)
       }).catch(err => {
         console.log(err)
       });
@@ -83,7 +95,11 @@ export default {
     productsResources.getAllProducts()
         .then(response => {
           console.log(response)
-          this.products = response.data
+          setTimeout(() => {
+            this.products = response.data
+            this.loader = false;
+          }, 3000)
+
         }).catch(error => {
       console.log(error)
     })
