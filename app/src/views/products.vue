@@ -36,9 +36,9 @@
         <td>{{ product.title }}</td>
         <td>{{ product.price }}</td>
         <td>@{{ product.category }}</td>
-        <td>
-          <button class="btn btn-danger" @click="deleteProduct(product._id)">X</button>
-          <button class="btn btn-success" @click="this.$router.push({name: 'Product', params: {id: product._id}})">I</button>
+        <td style="width: 110px">
+          <button class="btn btn-outline-danger" @click="deleteProduct(product._id)">	&#10060;</button>
+          <button class="btn btn-outline-primary" @click="this.$router.push({name: 'Product', params: {id: product._id}})">&#9997;</button>
         </td>
       </tr>
       </tbody>
