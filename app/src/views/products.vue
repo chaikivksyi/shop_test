@@ -21,29 +21,11 @@
       <button @click="addProduct(product)" class="btn btn-primary w-25">Submit</button>
     </form>
     <template v-if="!loader">
-      <table class="table mt-5">
-        <thead>
-        <tr>
-          <th scope="col">#</th>
-          <th scope="col">Title</th>
-          <th scope="col">Price</th>
-          <th scope="col">Category</th>
-          <th scope="col">Actions</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr v-for="(product, index) of products" :key="product._id">
-          <th scope="row">{{ ++index }}</th>
-          <td>{{ product.title }}</td>
-          <td>{{ product.price }}</td>
-          <td>@{{ product.category }}</td>
-          <td>
-            <button class="btn btn-outline-danger" @click="deleteProduct(product._id)">	&#10060;</button>
-            <button class="btn btn-outline-primary" @click="this.$router.push({name: 'Product', params: {id: product._id}})">&#9997;</button>
-          </td>
-        </tr>
-        </tbody>
-      </table>
+      <Table :obj="products"
+             :type_fields="type_fields"
+             @delete-product="deleteProduct"
+             @on-redirect="(id) => this.$router.push({name: 'Product', params: {id: id}})"
+      />
     </template>
     <template v-else>
       <Loader />
@@ -54,6 +36,7 @@
 <script>
 import productsResources from "@/resources/products";
 import Loader from "@/components/Loader";
+import Table from "@/components/Table";
 
 
 export default {
@@ -67,11 +50,26 @@ export default {
         category: 1,
         img: 'default.jpg'
       },
+      type_fields: [
+        {
+          head: 'Title',
+          label: 'title',
+        },
+        {
+          head: 'Price',
+          label: 'price',
+        },
+        {
+          head: 'Category',
+          label: 'category',
+        },
+      ],
       loader: true,
     }
   },
   components: {
-    Loader
+    Loader,
+    Table
   },
   methods: {
     addProduct(product) {
