@@ -4,3 +4,9 @@
   right: 20px;
   top: 10px;
 }
+
+.modal.show {
+  background: rgba(0, 0, 0, .5);
+
+  .modal-dialog {min-width: 55%;}
+}
