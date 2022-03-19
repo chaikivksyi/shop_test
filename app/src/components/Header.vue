@@ -13,6 +13,9 @@
         <li class="nav-item">
           <router-link to="/products" class="nav-link">Products</router-link>
         </li>
+        <li class="nav-item position-absolute out">
+          <a href="#" class="nav-link" @click.prevent="exitUser">Exit</a>
+        </li>
       </ul>
 
     </div>
@@ -21,7 +24,14 @@
 
 <script>
 export default {
-  name: "app-header"
+  name: "app-header",
+  methods: {
+    exitUser() {
+      localStorage.removeItem('user')
+      this.$store.dispatch('SET_USER', false)
+      this.$router.push({name: 'Login'})
+    }
+  }
 }
 </script>
 

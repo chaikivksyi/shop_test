@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const apiClient = axios.create({
-    baseURL: "http://localhost:5006/api/products",
+    baseURL: "http://localhost:5006/api/users",
     withCredentials: false,
     headers: {
         Accept: "application/json",
@@ -10,16 +10,8 @@ const apiClient = axios.create({
 });
 
 export default {
-    getAllProducts() {
-        return apiClient.get(`/`);
+    getUser(id) {
+        return apiClient.get(`/find/${id}`);
     },
-    getProduct(id) {
-        return apiClient.get(`/detail/${id}`);
-    },
-    addProduct(product) {
-        return apiClient.post(`/`, product)
-    },
-    deleteProduct(id) {
-        return apiClient.delete(`/${id}`)
-    }
+
 };

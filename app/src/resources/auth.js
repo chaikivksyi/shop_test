@@ -2,11 +2,11 @@ import axios from "axios";
 
 const apiClient = axios.create({
     baseURL: "http://localhost:5006/api/auth",
-    withCredentials: false,
+    credentials: 'include',
     headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
-    },
+    }
 });
 
 export default {

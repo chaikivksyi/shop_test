@@ -75,9 +75,7 @@ export default {
   },
   methods: {
     addProduct(product) {
-      console.log(JSON.stringify(product))
       productsResources.addProduct(product).then(response => {
-        console.log(response)
         this.products.push(response.data)
       }).catch(err => {
         console.log(err)
@@ -98,7 +96,6 @@ export default {
   created() {
     productsResources.getAllProducts()
         .then(response => {
-          console.log(response)
           setTimeout(() => {
             this.products = response.data
             this.loader = false;
