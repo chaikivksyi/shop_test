@@ -13,6 +13,15 @@
         <li class="nav-item">
           <router-link to="/products" class="nav-link">Products</router-link>
         </li>
+        <li class="nav-item">
+          <router-link to="/category" class="nav-link">Category</router-link>
+        </li>
+        <li class="nav-item">
+          <router-link to="/orders" class="nav-link">Orders</router-link>
+        </li>
+        <li class="nav-item">
+          <router-link to="/users" class="nav-link">Users</router-link>
+        </li>
         <li class="nav-item position-absolute out">
           <a href="#" class="nav-link" @click.prevent="exitUser">Exit</a>
         </li>

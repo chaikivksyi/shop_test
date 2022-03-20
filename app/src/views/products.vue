@@ -21,9 +21,13 @@
           <div class="form-group mb-3">
             <label for="category">Category</label>
             <select v-model="product.category" id="category" name="category" class="form-select">
-              <option value="1" selected>1</option>
-              <option value="2">2</option>
-              <option value="3">3</option>
+              <option value="0" selected>Select category</option>
+              <option v-for="category of categories"
+                      :key="category._id"
+                      :value="category.name"
+              >
+                {{ category.name }}
+              </option>
             </select>
           </div>
         </form>
@@ -47,16 +51,21 @@ import productsResources from "@/resources/products";
 import Loader from "@/components/Loader";
 import Table from "@/components/Table";
 import Modal from "@/components/Modal";
+import categoryResources from "@/resources/category";
 
 export default {
   name: "app-products",
   data() {
     return {
       products: [],
+      categories: [],
       product: {
         title: '',
         price: 0,
-        category: 1,
+        category: {
+          id: 0,
+          name: ''
+        },
         img: 'default.jpg'
       },
       type_fields: [
@@ -81,7 +90,10 @@ export default {
         this.product = {
             title: '',
             price: 0,
-            category: 1,
+            category: {
+              id: 0,
+              name: ''
+            },
             img: 'default.jpg'
         }
       }).catch(err => {
@@ -110,6 +122,10 @@ export default {
 
         }).catch(error => {
       console.log(error)
+    })
+    categoryResources.getAllCategories().then(response => {
+      console.log(response)
+      this.categories = response.data
     })
   }
 }

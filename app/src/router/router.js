@@ -26,7 +26,12 @@ const routes = [
         path: '/products/:id',
         name: 'Product',
         component: () => import('../views/product')
-    }
+    },
+    {
+        path: '/category',
+        name: 'Category',
+        component: () => import('../views/category')
+    },
 ]
 
 // history: createWebHistory(process.env.BASE_URL),

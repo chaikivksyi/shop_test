@@ -9,11 +9,13 @@
 <script>
 import productsResources from "@/resources/products";
 
+
 export default {
   name: "app-product",
   data() {
     return {
-      product: null
+      product: null,
+      categories: null,
     }
   },
   created() {
@@ -24,6 +26,7 @@ export default {
     }).catch(err => {
       console.log(err)
     });
+
   }
 }
 </script>
