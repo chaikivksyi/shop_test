@@ -53,8 +53,7 @@ import Loader from "@/components/Loader";
 import Table from "@/components/Table";
 import Modal from "@/components/Modal";
 import categoryResources from "@/resources/category";
-
-import Main from '@/components/templates/Main'
+import Note from '@/mixins/note'
 
 export default {
   name: "app-products",
@@ -65,10 +64,7 @@ export default {
       product: {
         title: '',
         price: 0,
-        category: {
-          id: 0,
-          name: ''
-        },
+        category:  '0',
         img: 'default.jpg'
       },
       type_fields: [
@@ -83,8 +79,7 @@ export default {
   components: {
     Loader,
     Table,
-    Modal,
-    Main
+    Modal
   },
   methods: {
     addProduct() {
@@ -94,12 +89,10 @@ export default {
         this.product = {
             title: '',
             price: 0,
-            category: {
-              id: 0,
-              name: ''
-            },
+            category: '0',
             img: 'default.jpg'
         }
+        Note('Product added!!!')
       }).catch(err => {
         console.log(err)
       });
