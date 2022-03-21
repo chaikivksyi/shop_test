@@ -10,7 +10,7 @@
         <li class="nav-item active">
           <router-link to="/" class="nav-link">Home</router-link>
         </li>
-        <li class="nav-item">
+        <li class="ndsfav-item">
           <router-link to="/products" class="nav-link">Products</router-link>
         </li>
         <li class="nav-item">
