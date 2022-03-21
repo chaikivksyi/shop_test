@@ -1,60 +1,92 @@
 <template>
   <div>
     <h1>Categories</h1>
-    <form @submit.prevent method="post" class="m-3">
-      <div class="form-group mb-3">
-        <label for="name">Name</label>
-        <input type="text" v-model="category.name" class="form-control" name="name" id="name" placeholder="Enter name">
-      </div>
-      <button class="btn btn-success" @click="addCategory">Add category</button>
-    </form>
-    <Table :obj="categories"
+    <button class="btn btn-success" @click="showModal = true">Add new user</button>
+    <Modal v-if="showModal"
+           @closePopup="showModal = false"
+           :title="'Add products product'"
+           :btn_text="'Add'"
+           @successPopup="registerUser"
+    >
+      <template v-slot:content>
+        <form @submit.prevent method="post" class="m-3">
+          <div class="form-group mb-3">
+            <label for="username">Login</label>
+            <input type="text" v-model="user.username" class="form-control" name="username" id="username" placeholder="Enter login">
+          </div>
+          <div class="form-group mb-3">
+            <label for="email">Email</label>
+            <input type="email" v-model="user.email" class="form-control" name="email" id="email" placeholder="Enter email">
+          </div>
+          <div class="form-group mb-3">
+            <label for="password">Password</label>
+            <input type="password" v-model="user.password" class="form-control" name="password" id="password" placeholder="Enter password">
+          </div>
+          <div class="form-group mb-3">
+            <label for="pwd">Password</label>
+            <input type="password" v-model="user.pwd" class="form-control" name="pwd" id="pwd" placeholder="Repeat password">
+          </div>
+          <button @click="registerUser" class="btn btn-primary w-25">Register</button>
+        </form>
+      </template>
+    </Modal>
+    <Table :obj="users"
            :type_fields="type_fields"
-           @delete-product="deleteCategory"
+           @delete-product="deleteUser"
     />
   </div>
 </template>
 
 <script>
-import categoryResources from "@/resources/category";
+import usersResources from "@/resources/users";
 // import Loader from "@/components/Loader";
 import Table from "@/components/Table";
-// import Modal from "@/components/Modal";
+import authResources from "@/resources/auth";
+import Modal from "@/components/Modal";
 
 export default {
   name: "app-users",
   data() {
     return {
-      categories: [],
+      users: [],
       type_fields: [
-        {head: 'Name', label: 'name',},
+        {head: 'Name', label: 'username'},
+        {head: 'Email', label: 'email'},
       ],
-      category: {
-        name: ''
-      }
+      user: {
+        username: '',
+        email: '',
+        pwd: '',
+        password: ''
+      },
+      showModal: false
     }
   },
   components: {
     // Loader,
     Table,
-    // Modal
+    Modal
   },
   methods: {
-    addCategory() {
-      categoryResources.addCategory(this.category).then(response => {
-        this.categories.push(response.data)
-        this.category = {
-          name: ''
+    registerUser() {
+      authResources.registerUser(this.user).then(response => {
+        this.users.push(response.data)
+        this.user = {
+          username: '',
+          email: '',
+          pwd: '',
+          password: ''
         }
+        this.showModal = false;
       }).catch(err => {
         console.log(err)
       });
     },
-    deleteCategory(id) {
-      categoryResources.deleteCategory(id).then(() => {
-        this.categories.find((item, index) => {
+    deleteUser(id) {
+      usersResources.deleteUser(id).then(() => {
+        this.users.find((item, index) => {
           if(item._id === id) {
-            this.categories.splice(index, 1)
+            this.users.splice(index, 1)
           }
         })
       }).catch(err => {
@@ -63,13 +95,9 @@ export default {
     }
   },
   created() {
-    categoryResources.getAllCategories()
+    usersResources.getAllUsers()
         .then(response => {
-          console.log(response)
-          setTimeout(() => {
-            this.categories = response.data
-          }, 500)
-
+          this.users = response.data
         }).catch(error => {
       console.log(error)
     })

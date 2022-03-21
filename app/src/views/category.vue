@@ -65,10 +65,7 @@ export default {
   created() {
     categoryResources.getAllCategories()
         .then(response => {
-          setTimeout(() => {
-            this.categories = response.data
-          }, 500)
-
+          this.categories = response.data
         }).catch(error => {
       console.log(error)
     })

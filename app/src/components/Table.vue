@@ -1,7 +1,7 @@
 <template>
   <div>
     <table class="table mt-5">
-      <thead>
+      <thead class="thead-dark">
       <tr>
         <th scope="col">#</th>
         <th scope="col" v-for="(field, i) of type_fields" :key="i">
@@ -16,7 +16,7 @@
         <td v-for="(field, i) of type_fields" :key="i">
           {{ item[field.label] }}
         </td>
-        <td>
+        <td style="width: 11%;">
           <button class="btn btn-outline-danger" @click="this.$emit('delete-product', item._id)">	&#10060;</button>
           <button class="btn btn-outline-primary" @click="this.$emit('on-redirect', item._id)">&#9997;</button>
         </td>

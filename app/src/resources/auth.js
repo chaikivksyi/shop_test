@@ -1,25 +1,17 @@
-import axios from "axios";
-
-const apiClient = axios.create({
-    baseURL: "http://localhost:5006/api/auth",
-    credentials: true,
-    headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json"
-    }
-});
+import api from './settings';
+const path = '/auth'
 
 export default {
     registerUser(user) {
-        return apiClient.post(`/register`, user);
+        return api.post(`${path}/register`, user);
     },
     loginUser(user) {
-        return apiClient.post(`/login`, user, {withCredentials: true });
+        return api.post(`${path}/login`, user, {withCredentials: true });
     },
     userLogout() {
-        return apiClient.get(`/logout`,{withCredentials: true });
+        return api.get(`${path}/logout`,{withCredentials: true });
     },
     userToken() {
-        return apiClient.get(`/user`, {withCredentials: true });
+        return api.get(`${path}/user`, {withCredentials: true });
     }
 };

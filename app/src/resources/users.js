@@ -1,17 +1,17 @@
 import api from './settings';
-const path = '/categories'
+const path = '/users'
 
 export default {
-    getAllCategories() {
+    getAllUsers() {
         return api.get(`${path}/`);
     },
     // getProduct(id) {
     //     return api.get(`${path}/detail/${id}`);
     // },
-    addCategory(category) {
+    addUser(category) {
         return api.post(`${path}/`, category)
     },
-    deleteCategory(id) {
+    deleteUser(id) {
         return api.delete(`${path}/${id}`)
     }
 };

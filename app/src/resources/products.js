@@ -1,25 +1,17 @@
-import axios from "axios";
-
-const apiClient = axios.create({
-    baseURL: "http://localhost:5006/api/products",
-    withCredentials: false,
-    headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-    },
-});
+import api from './settings';
+const path = '/products'
 
 export default {
     getAllProducts() {
-        return apiClient.get(`/`);
+        return api.get(`${path}/`);
     },
     getProduct(id) {
-        return apiClient.get(`/detail/${id}`);
+        return api.get(`${path}/detail/${id}`);
     },
     addProduct(product) {
-        return apiClient.post(`/`, product)
+        return api.post(`${path}/`, product)
     },
     deleteProduct(id) {
-        return apiClient.delete(`/${id}`)
+        return api.delete(`${path}/${id}`)
     }
 };

@@ -1,5 +1,7 @@
 <template>
-  <h1>Loading...</h1>
+  <div class="d-flex justify-content-center p-5">
+    <div class="lds-ellipsis"><div></div><div></div><div></div><div></div></div>
+  </div>
 </template>
 
 <script>
