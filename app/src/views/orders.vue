@@ -22,7 +22,7 @@ import Table from "@/components/Table";
 // import Modal from "@/components/Modal";
 
 export default {
-  name: "app-products",
+  name: "app-orders",
   data() {
     return {
       categories: [],
@@ -65,6 +65,7 @@ export default {
   created() {
     categoryResources.getAllCategories()
         .then(response => {
+          console.log(response)
           setTimeout(() => {
             this.categories = response.data
           }, 500)

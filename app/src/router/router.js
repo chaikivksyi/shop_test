@@ -32,6 +32,17 @@ const routes = [
         name: 'Category',
         component: () => import('../views/category')
     },
+    {
+        path: '/orders',
+        name: 'Orders',
+        component: () => import('../views/orders')
+    },
+    {
+        path: '/users',
+        name: 'Users',
+        component: () => import('../views/users')
+    },
+
 ]
 
 // history: createWebHistory(process.env.BASE_URL),
@@ -41,11 +52,14 @@ const router = createRouter({
 })
 
 router.beforeEach(  (to, from, next) => {
-    const isAuth = store.getters.isAuthorization;
+    // store.dispatch('GET_USER').then(() => {
+    //
+    // })
+    const isAuth = store.getters.isAuthorization
+
     if (to.name !== 'Login' && !isAuth) next({ name: 'Login' })
     else if (to.name === 'Login' && isAuth) next({ name: 'Home' })
     else next();
 })
-
 
 export default router

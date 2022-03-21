@@ -1,10 +1,4 @@
 const Category = require("../models/Category");
-const {
-    verifyToken,
-    verifyTokenAndAuthorization,
-    verifyTokenAndAdmin,
-} = require("./verifyToken");
-
 const router = require("express").Router();
 
 //CREATE

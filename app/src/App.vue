@@ -9,7 +9,7 @@
 
 <script>
 import Header from "@/components/Header";
-import {mapActions, mapGetters} from 'vuex';
+import {mapGetters} from 'vuex';
 
 export default {
   name: 'App',
@@ -19,12 +19,6 @@ export default {
   computed: {
     ...mapGetters(['isAuthorization'])
   },
-  methods: {
-    ...mapActions(['GET_USER'])
-  },
-  created() {
-    this.GET_USER()
-  }
 }
 </script>
 

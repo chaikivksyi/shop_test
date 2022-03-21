@@ -124,7 +124,6 @@ export default {
       console.log(error)
     })
     categoryResources.getAllCategories().then(response => {
-      console.log(response)
       this.categories = response.data
     })
   }

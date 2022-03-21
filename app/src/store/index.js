@@ -1,9 +1,10 @@
 import Vuex from 'vuex'
+import authResources from '@/resources/auth'
 
 export default new Vuex.Store({
     namespaced: true,
     state: {
-        isAuthorization: false
+        isAuthorization: true
     },
     getters: {
         isAuthorization: (state) => {return state.isAuthorization},
@@ -18,10 +19,14 @@ export default new Vuex.Store({
     },
     actions: {
         GET_USER: ({commit}) => {
-            commit('get_user', localStorage.getItem('user'));
+            authResources.userToken().then(() => {
+                commit('get_user', true);
+            }).catch(() => {
+                commit('get_user', false);
+            })
         },
         SET_USER: ({commit}, payload) => {
             commit('set_user', payload)
-        },
+        }
     }
 })

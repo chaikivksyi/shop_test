@@ -3,8 +3,8 @@
     <h1 class="mt-5 text-center">Login</h1>
     <form @submit.prevent method="post" class="m-3">
       <div class="form-group mb-3">
-        <label for="login-username">Login</label>
-        <input type="text" v-model="user.username" class="form-control" name="username" id="login-username" placeholder="Enter login">
+        <label for="email">Email</label>
+        <input type="email" v-model="user.email" class="form-control" name="email" id="email" placeholder="Enter email">
       </div>
       <div class="form-group mb-3">
         <label for="login-password">Password</label>
@@ -35,10 +35,6 @@ export default {
       authResources.loginUser(this.user)
       .then(response => {
         if(response.status === 200) {
-          localStorage.setItem('user', JSON.stringify({
-            login: 'admin',
-            pwd: '1111'
-          }))
           this.$store.dispatch('SET_USER', true)
           this.$router.push({name: 'Home'})
         }

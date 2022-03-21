@@ -32,14 +32,20 @@
 </template>
 
 <script>
+import authResources from "@/resources/auth";
+
 export default {
   name: "app-header",
   methods: {
     exitUser() {
-      localStorage.removeItem('user')
-      this.$store.dispatch('SET_USER', false)
-      this.$router.push({name: 'Login'})
-    }
+      authResources.userLogout()
+          .then(response => {
+            if(response.status === 200) {
+              this.$store.dispatch('SET_USER', false)
+              this.$router.push({name: 'Login'})
+            }
+          })
+    },
   }
 }
 </script>
