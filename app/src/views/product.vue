@@ -29,7 +29,7 @@
                 </option>
               </select>
             </div>
-            <button class="btn btn-success" @click="updateProduct">Update product</button>
+            <button class="btn btn-success" @click="$store.dispatch('PRODUCTS/UPDATE', product)">Update product</button>
           </form>
         </div>
       </div>
@@ -42,18 +42,18 @@
 
 <script>
 import productsResources from "@/resources/products";
-import categoryResources from "@/resources/category";
 import Loader from "@/components/Loader";
 import Note from '@/mixins/note'
+import {mapGetters} from "vuex";
 
 export default {
   name: "app-product",
-  data() {
-    return {
-      product: null,
-      categories: null,
-      loader: true
-    }
+  computed: {
+    ...mapGetters({
+      product: 'PRODUCTS/PRODUCT',
+      categories: 'PRODUCTS/CATEGORIES',
+      loader: 'PRODUCTS/LOADER',
+    })
   },
   methods: {
     updateProduct() {
@@ -67,17 +67,7 @@ export default {
     Loader
   },
   created() {
-    const id = this.$route.params.id
-    productsResources.getProduct(id).then(response => {
-      console.log(response)
-      this.product = response.data;
-      this.loader = false
-    }).catch(err => {
-      console.log(err)
-    });
-    categoryResources.getAllCategories().then(response => {
-      this.categories = response.data
-    })
+    this.$store.dispatch('PRODUCTS/GET_PRODUCT')
   }
 }
 </script>

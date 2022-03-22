@@ -1,5 +1,6 @@
 import productsResources from "@/resources/products";
 import categoriesResources from "@/resources/category";
+import Note from "@/mixins/note";
 
 export default {
     namespaced: true,
@@ -38,7 +39,7 @@ export default {
         set_products: (state, obj) => {state.all = obj},
         set_categories: (state, obj) => {state.categories = obj},
         set_count_products: (state, obj) => {state.count_products = obj},
-        add_product: (state, obj) => {state.product = obj},
+        set_product: (state, obj) => {state.product = obj},
         toggle_popup: (state, status) => {state.show_popup = status}
     },
     actions: {
@@ -56,9 +57,21 @@ export default {
                 commit('set_categories', response.data);
             })
         },
+        GET_PRODUCT: ({commit}) => {
+            const pathname = window.location.pathname;
+            const id = pathname.substring(pathname.lastIndexOf('/') + 1)
+            productsResources.getProduct(id).then(response => {
+                commit('set_product', response.data)
+            }).catch(err => {
+                console.log(err)
+            });
+            categoriesResources.getAllCategories().then(response => {
+                commit('set_categories', response.data);
+            })
+        },
         ADD: ({commit, dispatch}, payload) => {
             productsResources.addProduct(payload).then(() => {
-                commit('add_product', {
+                commit('set_product', {
                     title: '',
                     price: 0,
                     category: '0',
@@ -66,16 +79,24 @@ export default {
                 });
                 dispatch('GET_ALL', {page: 1, limit: 5});
                 commit('toggle_popup', false)
+                Note('Product added!!!')
             }).catch(err => {
                 console.log(err)
             });
         },
         REMOVE: ({dispatch}, id) => {
             productsResources.deleteProduct(id).then(() => {
-                dispatch('GET_ALL', {page: 1, limit: 5});
+                dispatch('GET_ALL');
+                Note('Product removed!!!', 'danger')
               }).catch(err => {
                 console.log(err)
               });
+        },
+        UPDATE: (context, payload) => {
+            productsResources.updateProduct(payload._id, payload)
+                .then(() => {
+                    Note('Product updated!!!')
+                })
         },
         TOGGLE_POPUP: ({commit}, payload) => {commit('toggle_popup', payload)},
     }
