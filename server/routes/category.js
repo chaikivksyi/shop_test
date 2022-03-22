@@ -8,7 +8,6 @@ router.post("/", async (req, res) => {
     const newCategory = await new Category({
         name: req.body.name
     });
-    console.log(newCategory)
     try {
         const savedCategory = await newCategory.save();
         res.status(200).json(savedCategory);

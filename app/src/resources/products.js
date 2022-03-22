@@ -2,8 +2,8 @@ import api from './settings';
 const path = '/products'
 
 export default {
-    getAllProducts() {
-        return api.get(`${path}/`);
+    getAllProducts(page, limit) {
+        return api.get(`${path}/?page=${page}&limit=${limit}`);
     },
     getProduct(id) {
         return api.get(`${path}/detail/${id}`);
@@ -13,5 +13,11 @@ export default {
     },
     deleteProduct(id) {
         return api.delete(`${path}/${id}`)
+    },
+    updateProduct(id, product) {
+        return api.put(`${path}/${id}`, product)
+    },
+    getImage() {
+        return api.get(`/storage`);
     }
 };

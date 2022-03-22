@@ -1,13 +1,19 @@
 import Vuex from 'vuex'
 import authResources from '@/resources/auth'
+// import router from "@/router/router";
 
 export default new Vuex.Store({
     namespaced: true,
     state: {
-        isAuthorization: true
+        isAuthorization: true,
+        pages: {
+            // page: router.currentRoute.query,
+            // limit: router.query || 5
+        }
     },
     getters: {
         isAuthorization: (state) => {return state.isAuthorization},
+        pagePagination: (state) => {return state.pages},
     },
     mutations: {
         get_user: (state, status) => {

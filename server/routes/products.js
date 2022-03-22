@@ -15,6 +15,7 @@ router.post("/", async (req, res) => {
 
 //UPDATE
 router.put("/:id", async (req, res) => {
+    console.log(req.body)
     try {
         const updatedProduct = await Product.findByIdAndUpdate(
             req.params.id,
@@ -51,24 +52,15 @@ router.get("/detail/:id", async (req, res) => {
 
 //GET ALL PRODUCTS
 router.get("/", async (req, res) => {
-    const qNew = req.query.new;
-    const qCategory = req.query.category;
+    const page = req.query.page - 1;
+    const limit = req.query.limit;
+
     try {
-        let products;
-
-        if (qNew) {
-            products = await Product.find().sort({ createdAt: -1 }).limit(1);
-        } else if (qCategory) {
-            products = await Product.find({
-                categories: {
-                    $in: [qCategory],
-                },
-            });
-        } else {
-            products = await Product.find();
-        }
-
-        res.status(200).json(products);
+        let products = await Product.find().skip(page * limit).limit(limit);
+        res.status(200).json({
+            obj: products,
+            count: await Product.find().count()
+        });
     } catch (err) {
         res.status(500).json(err);
     }

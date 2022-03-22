@@ -1,6 +1,5 @@
 <template>
   <div>
-    <Main />
     <template v-if="!loader">
       <h1>Products</h1>
       <button class="btn btn-success" @click="showModal = true">Add new product</button>
@@ -40,6 +39,7 @@
              @delete-product="deleteProduct"
              @on-redirect="(id) => this.$router.push({name: 'Product', params: {id: id}})"
       />
+      <Pagination :countPages="countPages" :activePagination="activePagination" @changePage="changePage" />
     </template>
     <template v-else>
       <Loader />
@@ -54,11 +54,14 @@ import Table from "@/components/Table";
 import Modal from "@/components/Modal";
 import categoryResources from "@/resources/category";
 import Note from '@/mixins/note'
+import Pagination from "@/components/Pagination";
 
 export default {
   name: "app-products",
   data() {
     return {
+      countPages: 1,
+      activePagination: 1,
       products: [],
       categories: [],
       product: {
@@ -77,14 +80,14 @@ export default {
     }
   },
   components: {
+    Pagination,
     Loader,
     Table,
     Modal
   },
   methods: {
     addProduct() {
-      productsResources.addProduct(this.product).then(response => {
-        this.products.push(response.data)
+      productsResources.addProduct(this.product).then(() => {
         this.showModal = false
         this.product = {
             title: '',
@@ -92,33 +95,47 @@ export default {
             category: '0',
             img: 'default.jpg'
         }
-        Note('Product added!!!')
+        this.getProducts(() => {
+          Note('Product added!!!')
+        })
       }).catch(err => {
         console.log(err)
       });
     },
     deleteProduct(id) {
       productsResources.deleteProduct(id).then(() => {
-        this.products.find((item, index) => {
-          if(item._id === id) {
-            this.products.splice(index, 1)
-          }
+        this.getProducts(() => {
+          Note('Product deleted!!!', 'danger')
         })
       }).catch(err => {
         console.log(err)
       });
+    },
+    getProducts(callback = () => {}) {
+      let {page = 1, limit = 5} = this.$route.query;
+      productsResources.getAllProducts(page, limit)
+          .then(response => {
+            setTimeout(() => {
+              this.products = response.data.obj
+              this.loader = false;
+              this.activePagination = Number(page);
+              this.countPages = Math.ceil(response.data.count / limit)
+              callback();
+            }, 500)
+          }).catch(error => {
+        console.log(error)
+      })
+    },
+    changePage(n) {
+      this.$router.push({name: 'Products', query: {page: n, limit: this.$route.query.limit}}).then(() => {
+        this.loader = true;
+        this.activePagination = n;
+        this.getProducts();
+      })
     }
   },
   created() {
-    productsResources.getAllProducts()
-        .then(response => {
-          setTimeout(() => {
-            this.products = response.data
-            this.loader = false;
-          }, 500)
-        }).catch(error => {
-      console.log(error)
-    })
+    this.getProducts();
     categoryResources.getAllCategories().then(response => {
       this.categories = response.data
     })
