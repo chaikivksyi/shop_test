@@ -2,12 +2,12 @@
   <div>
     <template v-if="!loader">
       <h1>Products</h1>
-      <button class="btn btn-success" @click="showModal = true">Add new product</button>
+      <button class="btn btn-success" @click="$store.dispatch('PRODUCTS/TOGGLE_POPUP', true)">Add new product</button>
       <Modal v-if="showModal"
-              @closePopup="showModal = false"
+              @closePopup="$store.dispatch('PRODUCTS/TOGGLE_POPUP', false)"
              :title="'Add products product'"
              :btn_text="'Add'"
-             @successPopup="addProduct"
+             @successPopup="$store.dispatch('PRODUCTS/ADD', product)"
       >
         <template v-slot:content>
           <form @submit.prevent method="post" class="m-3">
@@ -36,10 +36,10 @@
       </Modal>
       <Table :obj="products"
              :type_fields="type_fields"
-             @delete-product="deleteProduct"
+             @delete-product="(id) => $store.dispatch('PRODUCTS/REMOVE', id)"
              @on-redirect="(id) => this.$router.push({name: 'Product', params: {id: id}})"
       />
-      <Pagination :countPages="countPages" :activePagination="activePagination" @changePage="changePage" />
+      <Pagination :countPages="countPages" :activePagination="Number(this.$route.query.page) || 1" @changePage="changePage" />
     </template>
     <template v-else>
       <Loader />
@@ -48,36 +48,24 @@
 </template>
 
 <script>
-import productsResources from "@/resources/products";
 import Loader from "@/components/Loader";
 import Table from "@/components/Table";
 import Modal from "@/components/Modal";
-import categoryResources from "@/resources/category";
-import Note from '@/mixins/note'
 import Pagination from "@/components/Pagination";
+import { mapGetters } from 'vuex';
 
 export default {
   name: "app-products",
-  data() {
-    return {
-      countPages: 1,
-      activePagination: 1,
-      products: [],
-      categories: [],
-      product: {
-        title: '',
-        price: 0,
-        category:  '0',
-        img: 'default.jpg'
-      },
-      type_fields: [
-        {head: 'Title', label: 'title',},
-        {head: 'Price', label: 'price',},
-        {head: 'Category', label: 'category',},
-      ],
-      loader: true,
-      showModal: false
-    }
+  computed: {
+    ...mapGetters({
+      products: 'PRODUCTS/ALL',
+      categories: 'PRODUCTS/CATEGORIES',
+      countPages: 'PRODUCTS/COUNT_PAGES',
+      product: 'PRODUCTS/PRODUCT',
+      showModal: 'PRODUCTS/SHOW_POPUP',
+      type_fields: 'PRODUCTS/FIELDS',
+      loader: 'PRODUCTS/LOADER',
+    })
   },
   components: {
     Pagination,
@@ -86,59 +74,18 @@ export default {
     Modal
   },
   methods: {
-    addProduct() {
-      productsResources.addProduct(this.product).then(() => {
-        this.showModal = false
-        this.product = {
-            title: '',
-            price: 0,
-            category: '0',
-            img: 'default.jpg'
-        }
-        this.getProducts(() => {
-          Note('Product added!!!')
-        })
-      }).catch(err => {
-        console.log(err)
-      });
-    },
-    deleteProduct(id) {
-      productsResources.deleteProduct(id).then(() => {
-        this.getProducts(() => {
-          Note('Product deleted!!!', 'danger')
-        })
-      }).catch(err => {
-        console.log(err)
-      });
-    },
-    getProducts(callback = () => {}) {
-      let {page = 1, limit = 5} = this.$route.query;
-      productsResources.getAllProducts(page, limit)
-          .then(response => {
-            setTimeout(() => {
-              this.products = response.data.obj
-              this.loader = false;
-              this.activePagination = Number(page);
-              this.countPages = Math.ceil(response.data.count / limit)
-              callback();
-            }, 500)
-          }).catch(error => {
-        console.log(error)
-      })
+    getProducts() {
+      this.$store.dispatch('PRODUCTS/GET_ALL')
     },
     changePage(n) {
-      this.$router.push({name: 'Products', query: {page: n, limit: this.$route.query.limit}}).then(() => {
-        this.loader = true;
-        this.activePagination = n;
-        this.getProducts();
-      })
+      this.$router.push({name: 'Products', query: {page: n, limit: this.$route.query.limit}})
+        .then(() => {
+          this.getProducts();
+        })
     }
   },
   created() {
     this.getProducts();
-    categoryResources.getAllCategories().then(response => {
-      this.categories = response.data
-    })
   }
 }
 </script>

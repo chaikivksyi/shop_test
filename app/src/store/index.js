@@ -1,9 +1,12 @@
 import Vuex from 'vuex'
 import authResources from '@/resources/auth'
 // import router from "@/router/router";
+import Products from './moduleProducts'
 
 export default new Vuex.Store({
-    namespaced: true,
+    modules: {
+      PRODUCTS: Products
+    },
     state: {
         isAuthorization: true,
         pages: {
