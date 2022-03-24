@@ -1,4 +1,4 @@
-# public
+# shops-main
 
 ## Project setup
 ```
