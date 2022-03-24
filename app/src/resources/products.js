@@ -17,7 +17,7 @@ export default {
     updateProduct(id, product) {
         return api.put(`${path}/${id}`, product)
     },
-    getImage() {
-        return api.get(`/storage`);
+    uploadImage(file) {
+        return api.post(`${path}/upload-image`, file);
     }
 };

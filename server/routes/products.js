@@ -1,5 +1,25 @@
 const Product = require("../models/Product");
 const router = require("express").Router();
+const multer  = require('multer');
+
+var storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+        cb(null, './uploads')
+    },
+    filename: function (req, file, cb) {
+        cb(null, file.originalname)
+    }
+})
+var upload = multer({ storage: storage })
+
+router.post('/upload-image', upload.single('img'), function (req, res, next) {
+    // console.log(req.file)
+    // console.log(JSON.stringify(req.file))
+    var response = '<a href="/">Home</a><br>'
+    response += "Files uploaded successfully.<br>"
+    response += `<img src="${req.file.path}" /><br>`
+    return res.send(response)
+})
 
 //CREATE
 router.post("/", async (req, res) => {

@@ -7,10 +7,10 @@
               @closePopup="$store.dispatch('PRODUCTS/TOGGLE_POPUP', false)"
              :title="'Add products product'"
              :btn_text="'Add'"
-             @successPopup="$store.dispatch('PRODUCTS/ADD', product)"
+             @successPopup="addProduct"
       >
         <template v-slot:content>
-          <form @submit.prevent method="post" class="m-3">
+          <form @submit.prevent method="post" class="m-3" enctype="multipart/form-data">
             <div class="form-group mb-3">
               <label for="title">Title</label>
               <input type="text" v-model="product.title" class="form-control" name="title" id="title" placeholder="Enter title">
@@ -18,6 +18,10 @@
             <div class="form-group mb-3">
               <label for="price">Price</label>
               <input type="number" v-model="product.price" class="form-control" name="price" id="price" placeholder="Enter price">
+            </div>
+            <div class="form-group mb-3">
+              <label for="img">Image</label>
+              <input type="file" @change="onChangeFile" class="form-control" name="img" id="img" placeholder="Select image">
             </div>
             <div class="form-group mb-3">
               <label for="category">Category</label>
@@ -53,9 +57,15 @@ import Table from "@/components/Table";
 import Modal from "@/components/Modal";
 import Pagination from "@/components/Pagination";
 import { mapGetters } from 'vuex';
+import a from '@/resources/products';
 
 export default {
   name: "app-products",
+  data() {
+    return {
+      selectedFile: null
+    }
+  },
   computed: {
     ...mapGetters({
       products: 'PRODUCTS/ALL',
@@ -82,6 +92,18 @@ export default {
         .then(() => {
           this.getProducts();
         })
+    },
+    addProduct() {
+      const fd = new FormData();
+      fd.append('img', this.selectedFile, this.selectedFile.name)
+      a.uploadImage(fd).then(response => {
+        console.log(response)
+      })
+      // this.product.img = this.selectedFile.name
+      // this.$store.dispatch('PRODUCTS/ADD', this.product)
+    },
+    onChangeFile(e) {
+      this.selectedFile = e.target.files[0]
     }
   },
   created() {

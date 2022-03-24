@@ -1,7 +1,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require("cors");
-const cookieParser = require('cookie-parser')
+const cookieParser = require('cookie-parser');
 
 const app = express();
 require('dotenv').config();
@@ -12,6 +12,7 @@ mongoose.connect(process.env.MONGO_URL)
     .catch(err => {console.log(err);})
 
 app.use(cookieParser())
+app.use('/uploads', express.static('uploads'));
 
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }));

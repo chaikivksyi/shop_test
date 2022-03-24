@@ -70,7 +70,8 @@ export default {
             })
         },
         ADD: ({commit, dispatch}, payload) => {
-            productsResources.addProduct(payload).then(() => {
+            productsResources.addProduct(payload).then((response) => {
+                console.log(response)
                 commit('set_product', {
                     title: '',
                     price: 0,
