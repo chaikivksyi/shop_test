@@ -2,6 +2,13 @@ import productsResources from "@/resources/products";
 import categoriesResources from "@/resources/category";
 import Note from "@/mixins/note";
 
+const default_product = {
+    title: '',
+    price: 0,
+    category: '0',
+    img: 'default.jpg'
+}
+
 export default {
     namespaced: true,
     state: {
@@ -12,12 +19,7 @@ export default {
             number: 1,
             limit: 5
         },
-        product: {
-            title: '',
-            price: 0,
-            category: '0',
-            img: 'default.jpg'
-        },
+        product: default_product,
         type_fields: [
             {head: 'Title', label: 'title',},
             {head: 'Price', label: 'price',},
@@ -40,7 +42,10 @@ export default {
         set_categories: (state, obj) => {state.categories = obj},
         set_count_products: (state, obj) => {state.count_products = obj},
         set_product: (state, obj) => {state.product = obj},
-        toggle_popup: (state, status) => {state.show_popup = status}
+        toggle_popup: (state, status) => {
+            state.show_popup = status
+            state.product = default_product
+        }
     },
     actions: {
         GET_ALL: ({commit, state}) => {
@@ -72,12 +77,7 @@ export default {
         ADD: ({commit, dispatch}, payload) => {
             productsResources.addProduct(payload.product).then(() => {
                 productsResources.uploadImage(payload.file).then(() => {
-                    commit('set_product', {
-                        title: '',
-                        price: 0,
-                        category: '0',
-                        img: 'default.jpg'
-                    });
+                    commit('set_product', default_product);
                     dispatch('GET_ALL', {page: 1, limit: 5});
                     commit('toggle_popup', false)
                     Note('Product added!!!')
@@ -95,8 +95,8 @@ export default {
               });
         },
         UPDATE: (context, payload) => {
-            productsResources.updateProduct(payload.product._id, payload.product).then(() => {
-                productsResources.uploadImage(payload.file).then(() => {
+            productsResources.uploadImage(payload.file).then(() => {
+                productsResources.updateProduct(payload.product._id, payload.product).then(() => {
                     Note('Product updated!!!')
                 })
             })
