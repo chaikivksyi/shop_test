@@ -95,10 +95,11 @@ export default {
               });
         },
         UPDATE: (context, payload) => {
-            productsResources.updateProduct(payload._id, payload)
-                .then(() => {
+            productsResources.updateProduct(payload.product._id, payload.product).then(() => {
+                productsResources.uploadImage(payload.file).then(() => {
                     Note('Product updated!!!')
                 })
+            })
         },
         TOGGLE_POPUP: ({commit}, payload) => {commit('toggle_popup', payload)},
     }

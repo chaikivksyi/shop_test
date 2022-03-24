@@ -17,6 +17,10 @@
                 <label for="price">Price</label>
                 <input type="number" v-model="product.price" class="form-control" name="price" id="price" placeholder="Enter price">
               </div>
+            <div class="form-group mb-3">
+              <label for="img">Image</label>
+              <input type="file" @change="onChangeFile" class="form-control" name="img" id="img" placeholder="Select image">
+            </div>
               <div class="form-group mb-3">
                 <label for="category">Category</label>
                 <select v-model="product.category" id="category" name="category" class="form-select">
@@ -29,7 +33,7 @@
                   </option>
                 </select>
               </div>
-              <button class="btn btn-success" @click="$store.dispatch('PRODUCTS/UPDATE', product)">Update product</button>
+              <button class="btn btn-success" @click="updateProduct">Update product</button>
           </div>
         </div>
       </form>
@@ -41,9 +45,7 @@
 </template>
 
 <script>
-import productsResources from "@/resources/products";
 import Loader from "@/components/Loader";
-import Note from '@/mixins/note'
 import {mapGetters} from "vuex";
 
 export default {
@@ -57,10 +59,16 @@ export default {
   },
   methods: {
     updateProduct() {
-      productsResources.updateProduct(this.product._id, this.product).then(response => {
-        console.log(response)
-        Note('Product updated')
+      const fd = new FormData();
+      fd.append('img', this.selectedFile, this.selectedFile.name)
+      this.product.img = this.selectedFile.name
+      this.$store.dispatch('PRODUCTS/UPDATE', {
+        product: this.product,
+        file: fd
       })
+    },
+    onChangeFile(e) {
+      this.selectedFile = e.target.files[0]
     }
   },
   components: {
