@@ -9,14 +9,12 @@ export default new Vuex.Store({
     },
     state: {
         isAuthorization: true,
-        pages: {
-            // page: router.currentRoute.query,
-            // limit: router.query || 5
-        }
+        show_left_menu: true
     },
     getters: {
         isAuthorization: (state) => {return state.isAuthorization},
         pagePagination: (state) => {return state.pages},
+        SHOW_MENU_LEFT: (state) => {return state.show_left_menu},
     },
     mutations: {
         get_user: (state, status) => {
@@ -24,6 +22,9 @@ export default new Vuex.Store({
         },
         set_user: (state, status) => {
             state.isAuthorization = status
+        },
+        toggle_left_menu: (state) => {
+            state.show_left_menu = !state.show_left_menu
         }
     },
     actions: {
@@ -36,6 +37,9 @@ export default new Vuex.Store({
         },
         SET_USER: ({commit}, payload) => {
             commit('set_user', payload)
-        }
+        },
+        TOGGLE_LEFT_MENU: ({commit}) => {
+            commit('toggle_left_menu')
+        },
     }
 })

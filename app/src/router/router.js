@@ -42,6 +42,21 @@ const routes = [
         name: 'Users',
         component: () => import('../views/users')
     },
+    {
+        path: '/images',
+        name: 'Images',
+        component: () => import('../views/users')
+    },
+    {
+        path: '/layouts',
+        name: 'Layouts',
+        component: () => import('../views/users')
+    },
+    {
+        path: '/settings',
+        name: 'Settings',
+        component: () => import('../views/users')
+    },
 
 ]
 

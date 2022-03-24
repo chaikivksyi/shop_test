@@ -1,31 +1,20 @@
 <template>
-  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <router-link to="/" class="nav-link" style="width: 12%">
-      <img :src="require('@/assets/img/logo.png')" style="width: 100%;" alt="">
-    </router-link>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
+  <nav class="navbar navbar-expand-lg px-3 navbar-dark bg-dark text-white d-flex align-items-center justify-content-between">
+    <div class="d-flex align-items-center">
+      <router-link to="/" >
+        <img :src="require('@/assets/img/logo.png')" style="height: 40px" alt="">
+      </router-link>
+      <h4 class="page-title">{{ $route.name }}</h4>
+<!--      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">-->
+<!--        <span class="navbar-toggler-icon"></span>-->
+<!--      </button>-->
+    </div>
 
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav mr-auto">
-        <li class="ndsfav-item">
-          <router-link to="/products" class="nav-link">Products</router-link>
-        </li>
-        <li class="nav-item">
-          <router-link to="/category" class="nav-link">Category</router-link>
-        </li>
-        <li class="nav-item">
-          <router-link to="/orders" class="nav-link">Orders</router-link>
-        </li>
-        <li class="nav-item">
-          <router-link to="/users" class="nav-link">Users</router-link>
-        </li>
-        <li class="nav-item position-absolute out">
-          <a href="#" class="nav-link" @click.prevent="exitUser">Exit</a>
-        </li>
+    <div class="d-flex align-items-center" style="height: 45px">
+      <ul class="navbar-nav">
+        <li class="nav-item">Admin</li>
+        <li class="nav-item" @click.prevent="exitUser">Exit</li>
       </ul>
-
     </div>
   </nav>
 </template>

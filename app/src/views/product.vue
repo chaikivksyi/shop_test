@@ -59,9 +59,12 @@ export default {
   },
   methods: {
     updateProduct() {
-      const fd = new FormData();
-      fd.append('img', this.selectedFile, this.selectedFile.name)
-      this.product.img = this.selectedFile.name
+      let fd = null
+      if(this.selectedFile) {
+        fd = new FormData();
+        fd.append('img', this.selectedFile, this.selectedFile.name)
+        this.product.img = this.selectedFile.name
+      }
       this.$store.dispatch('PRODUCTS/UPDATE', {
         product: this.product,
         file: fd

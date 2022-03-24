@@ -76,12 +76,13 @@ export default {
         },
         ADD: ({commit, dispatch}, payload) => {
             productsResources.addProduct(payload.product).then(() => {
-                productsResources.uploadImage(payload.file).then(() => {
-                    commit('set_product', default_product);
-                    dispatch('GET_ALL', {page: 1, limit: 5});
-                    commit('toggle_popup', false)
-                    Note('Product added!!!')
-                })
+                if(payload.file) {
+                    productsResources.uploadImage(payload.file).then(() => {})
+                }
+                commit('set_product', default_product);
+                dispatch('GET_ALL', {page: 1, limit: 5});
+                commit('toggle_popup', false)
+                Note('Product added!!!')
             }).catch(err => {
                 console.log(err)
             });
@@ -95,11 +96,14 @@ export default {
               });
         },
         UPDATE: (context, payload) => {
-            productsResources.uploadImage(payload.file).then(() => {
-                productsResources.updateProduct(payload.product._id, payload.product).then(() => {
-                    Note('Product updated!!!')
-                })
+            new Promise.all([
+                productsResources.uploadImage(payload.file),
+                productsResources.updateProduct(payload.product._id, payload.product)
+            ]).then(() => {
+                Note('Product updated!!!')
             })
+
+
         },
         TOGGLE_POPUP: ({commit}, payload) => {commit('toggle_popup', payload)},
     }
