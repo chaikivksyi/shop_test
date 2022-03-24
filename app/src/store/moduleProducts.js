@@ -70,17 +70,18 @@ export default {
             })
         },
         ADD: ({commit, dispatch}, payload) => {
-            productsResources.addProduct(payload).then((response) => {
-                console.log(response)
-                commit('set_product', {
-                    title: '',
-                    price: 0,
-                    category: '0',
-                    img: 'default.jpg'
-                });
-                dispatch('GET_ALL', {page: 1, limit: 5});
-                commit('toggle_popup', false)
-                Note('Product added!!!')
+            productsResources.addProduct(payload.product).then(() => {
+                productsResources.uploadImage(payload.file).then(() => {
+                    commit('set_product', {
+                        title: '',
+                        price: 0,
+                        category: '0',
+                        img: 'default.jpg'
+                    });
+                    dispatch('GET_ALL', {page: 1, limit: 5});
+                    commit('toggle_popup', false)
+                    Note('Product added!!!')
+                })
             }).catch(err => {
                 console.log(err)
             });

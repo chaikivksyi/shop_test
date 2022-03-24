@@ -57,7 +57,6 @@ import Table from "@/components/Table";
 import Modal from "@/components/Modal";
 import Pagination from "@/components/Pagination";
 import { mapGetters } from 'vuex';
-import a from '@/resources/products';
 
 export default {
   name: "app-products",
@@ -96,11 +95,11 @@ export default {
     addProduct() {
       const fd = new FormData();
       fd.append('img', this.selectedFile, this.selectedFile.name)
-      a.uploadImage(fd).then(response => {
-        console.log(response)
+      this.product.img = this.selectedFile.name
+      this.$store.dispatch('PRODUCTS/ADD', {
+        product: this.product,
+        file: fd
       })
-      // this.product.img = this.selectedFile.name
-      // this.$store.dispatch('PRODUCTS/ADD', this.product)
     },
     onChangeFile(e) {
       this.selectedFile = e.target.files[0]
