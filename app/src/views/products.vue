@@ -1,8 +1,20 @@
 <template>
   <div>
     <template v-if="!loader">
-      <h1>Products</h1>
-      <button class="btn btn-success" @click="$store.dispatch('PRODUCTS/TOGGLE_POPUP', true)">Add new product</button>
+      <div class="d-flex">
+        <button class="btn btn-success" @click="$store.dispatch('PRODUCTS/TOGGLE_POPUP', true)">Add new product</button>
+        <button class="btn btn-primary">
+          <select :value="filter_category" @change="filterProducts" name="filter-category" class="form-select">
+            <option value="all" selected>All products</option>
+            <option v-for="category of categories"
+                    :key="category._id"
+                    :value="category.name"
+            >
+              {{ category.name }}
+            </option>
+          </select>
+        </button>
+      </div>
       <Modal v-if="showModal"
               @closePopup="$store.dispatch('PRODUCTS/TOGGLE_POPUP', false)"
              :title="'Add products product'"
@@ -26,7 +38,7 @@
             <div class="form-group mb-3">
               <label for="category">Category</label>
               <select v-model="product.category" id="category" name="category" class="form-select">
-                <option value="0" selected>Select category</option>
+                <option value="all" selected>Select category</option>
                 <option v-for="category of categories"
                         :key="category._id"
                         :value="category.name"
@@ -62,7 +74,8 @@ export default {
   name: "app-products",
   data() {
     return {
-      selectedFile: null
+      selectedFile: null,
+      filter_category: 'all'
     }
   },
   computed: {
@@ -87,7 +100,7 @@ export default {
       this.$store.dispatch('PRODUCTS/GET_ALL')
     },
     changePage(n) {
-      this.$router.push({name: 'Products', query: {page: n, limit: this.$route.query.limit}})
+      this.$router.push({name: 'Products', query: {page: n, limit: this.$route.query.limit, category: this.$route.query.category}})
         .then(() => {
           this.getProducts();
         })
@@ -106,10 +119,18 @@ export default {
     },
     onChangeFile(e) {
       this.selectedFile = e.target.files[0]
+    },
+    filterProducts(e) {
+      this.filter_category = e.target.value
+      this.$router.push({name: 'Products', query: {page: 1, category: this.filter_category}})
+        .then(() => {
+          this.$store.dispatch('PRODUCTS/GET_ALL')
+        })
     }
   },
   created() {
     this.getProducts();
+    this.filter_category = this.$route.query.category ? this.$route.query.category : 'all'
   }
 }
 </script>

@@ -24,7 +24,7 @@
               <div class="form-group mb-3">
                 <label for="category">Category</label>
                 <select v-model="product.category" id="category" name="category" class="form-select">
-                  <option value="0" selected>Select category</option>
+                  <option value="all" selected>Select category</option>
                   <option v-for="category of categories"
                           :key="category._id"
                           :value="category.name"

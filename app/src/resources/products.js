@@ -2,8 +2,8 @@ import api from './settings';
 const path = '/products'
 
 export default {
-    getAllProducts(page, limit) {
-        return api.get(`${path}/?page=${page}&limit=${limit}`);
+    getAllProducts(page, limit = 5 , category = 'all') {
+        return api.get(`${path}/?page=${page}&limit=${limit}&category=${category}`);
     },
     getProduct(id) {
         return api.get(`${path}/detail/${id}`);

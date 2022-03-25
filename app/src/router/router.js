@@ -45,7 +45,7 @@ const routes = [
     {
         path: '/images',
         name: 'Images',
-        component: () => import('../views/users')
+        component: () => import('../views/images')
     },
     {
         path: '/layouts',
@@ -53,11 +53,10 @@ const routes = [
         component: () => import('../views/users')
     },
     {
-        path: '/settings',
-        name: 'Settings',
-        component: () => import('../views/users')
+        path: '/profile',
+        name: 'Profile',
+        component: () => import('../views/profile')
     },
-
 ]
 
 // history: createWebHistory(process.env.BASE_URL),
@@ -67,14 +66,12 @@ const router = createRouter({
 })
 
 router.beforeEach(  (to, from, next) => {
-    // store.dispatch('GET_USER').then(() => {
-    //
-    // })
-    const isAuth = store.getters.isAuthorization
-
-    if (to.name !== 'Login' && !isAuth) next({ name: 'Login' })
-    else if (to.name === 'Login' && isAuth) next({ name: 'Home' })
-    else next();
+    setTimeout(() => {
+        const isAuth = store.getters.isAuthorization
+        if (to.name !== 'Login' && !isAuth) next({ name: 'Login' })
+        else if (to.name === 'Login' && isAuth) next({ name: 'Home' })
+        else next();
+    }, 50)
 })
 
 export default router

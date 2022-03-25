@@ -1,13 +1,12 @@
 <template>
   <div>
-    <h1>...</h1>
+    <h1>profile</h1>
   </div>
 </template>
 
 <script>
-
 export default {
-  name: "app-orders"
+  name: "app-profile"
 }
 </script>
 

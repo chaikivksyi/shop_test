@@ -39,7 +39,6 @@
 
 <script>
 import usersResources from "@/resources/users";
-// import Loader from "@/components/Loader";
 import Table from "@/components/Table";
 import authResources from "@/resources/auth";
 import Modal from "@/components/Modal";

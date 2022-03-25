@@ -5,9 +5,11 @@
     <div class="toggle-left-menu" @click="$store.dispatch('TOGGLE_LEFT_MENU')"></div>
     <hr>
     <ul class="nav nav-pills flex-column mb-auto">
-      <li class="nav-item my-2" v-for="link of links" :key="link.route">
+      <li class="nav-item my-2" v-for="(link, i) of links" :key="link.route">
         <router-link :to="'/' + link.route" class="nav-link text-white d-flex align-items-center" :class="['nav-link', {'active': $route.name === link.name}]">
-          <div class="icon-menu"></div>
+          <div class="icon-menu">
+            <img :src="require(`@/assets/img/menu-icons/${++i}-active.svg`)" alt="logo">
+          </div>
           <span>{{ link.name }}</span>
         </router-link>
       </li>
@@ -27,7 +29,7 @@ export default {
         { route: 'users', name: 'Users' },
         { route: 'orders', name: 'Orders' },
         { route: 'images', name: 'Images' },
-        { route: 'settings', name: 'Settings' },
+        { route: 'profile', name: 'Profile' },
         { route: 'layouts', name: 'Layouts' },
       ]
     }

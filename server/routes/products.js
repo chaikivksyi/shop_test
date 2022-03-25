@@ -13,8 +13,6 @@ var storage = multer.diskStorage({
 var upload = multer({ storage: storage })
 
 router.post('/upload-image', upload.single('img'), function (req, res, next) {
-    // console.log(req.file)
-    // console.log(JSON.stringify(req.file))
     var response = '<a href="/">Home</a><br>'
     response += "Files uploaded successfully.<br>"
     response += `<img src="${req.file.path}" /><br>`
@@ -74,12 +72,21 @@ router.get("/detail/:id", async (req, res) => {
 router.get("/", async (req, res) => {
     const page = req.query.page - 1;
     const limit = req.query.limit;
+    const category = req.query.category
 
     try {
-        let products = await Product.find().skip(page * limit).limit(limit);
+        let products = null;
+        let count = 0;
+        if(category === 'all') {
+            products = await Product.find().skip(page * limit).limit(limit);
+            count = await Product.find().count();
+        }else {
+            products = await Product.find({ category: category }).skip(page * limit).limit(limit);
+            count = await Product.find({ category: category }).count();
+        }
         res.status(200).json({
             obj: products,
-            count: await Product.find().count()
+            count: count
         });
     } catch (err) {
         res.status(500).json(err);
