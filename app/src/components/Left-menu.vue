@@ -30,7 +30,7 @@ export default {
         { route: 'orders', name: 'Orders' },
         { route: 'images', name: 'Images' },
         { route: 'profile', name: 'Profile' },
-        { route: 'layouts', name: 'Layouts' },
+        { route: 'banners', name: 'Banners' },
       ]
     }
   }

@@ -48,9 +48,9 @@ const routes = [
         component: () => import('../views/images')
     },
     {
-        path: '/layouts',
-        name: 'Layouts',
-        component: () => import('../views/users')
+        path: '/banners',
+        name: 'Banners',
+        component: () => import('../views/banner')
     },
     {
         path: '/profile',
