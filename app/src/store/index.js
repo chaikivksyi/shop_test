@@ -1,6 +1,4 @@
 import Vuex from 'vuex'
-import authResources from '@/resources/auth'
-// import router from "@/router/router";
 import Products from './moduleProducts'
 
 export default new Vuex.Store({
@@ -8,7 +6,7 @@ export default new Vuex.Store({
       PRODUCTS: Products
     },
     state: {
-        isAuthorization: true,
+        isAuthorization: false,
         show_left_menu: true
     },
     getters: {
@@ -19,6 +17,7 @@ export default new Vuex.Store({
     mutations: {
         get_user: (state, status) => {
             state.isAuthorization = status
+            state.isAuthorization = true
         },
         set_user: (state, status) => {
             state.isAuthorization = status
@@ -28,13 +27,6 @@ export default new Vuex.Store({
         }
     },
     actions: {
-        GET_USER: ({commit}) => {
-            authResources.userToken().then(() => {
-                commit('get_user', true);
-            }).catch(() => {
-                commit('get_user', false);
-            })
-        },
         SET_USER: ({commit}, payload) => {
             commit('set_user', payload)
         },
