@@ -1,19 +1,32 @@
 <template>
 <div>
-<WiCartItem/>
-<WiCartItem/>
-<WiCartItem/>
-<WiCartItem/>
+<WiCartItem v-for="product of products"
+            :key="product._id"
+            :product="product"
+/>
+
   <v-btn type="button" class="btn">Подтвердить заказ</v-btn>
 </div>
 </template>
 
 <script>
 import WiCartItem from "@/components/Wicart-item";
+import axios from "axios";
 export default {
   name: "WiCart",
   components: {
     WiCartItem
+  },
+  data() {
+    return {
+      products: []
+    }
+  },
+  created(){
+    axios.get('http://localhost:5006/api/products').then((a) => {
+      console.log(a.data)
+      this.products = a.data.obj
+    })
   }
 }
 </script>

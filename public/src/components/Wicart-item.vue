@@ -1,14 +1,14 @@
 <template>
   <div class="order-item-wrapper">
-    <img class="order-item-img" src="../assets/images/apple13.jpg" alt="img">
+    <img class="order-item-img" :src="`http://localhost:5006/uploads/${product.img}`">
     <div class="order-item-description">
       <router-link to="/Catalog/description" class="product-description">
-      <h2>Iphone 13</h2>
+        <h3>{{ product.title }}</h3>
       </router-link>
-      <p>Цена:20$</p>
+      <p>Цена:{{ product.price }}$</p>
       <p>Количество:
         <input class="input-edit-order" type="text"  required>шт.</p>
-      <p> Сума:$</p>
+      <p> Сума:{{ product.price }}$</p>
       <div class="btn-item">
         <v-btn type="button" class=" btn btn-delete btn-card">X</v-btn>
       </div>
@@ -17,8 +17,11 @@
 </template>
 
 <script>
+
+
 export default {
-  name: "WiCart-item"
+  name: "WiCart-item",
+  props: ['product'],
 }
 </script>
 

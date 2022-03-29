@@ -3,6 +3,7 @@ import Home from '../views/Home.vue';
 import WiCart from '../views/Wicart.vue';
 import Catalog from '../views/Catalog';
 import ProductDescription from '../components/Product-description-item';
+import CategoriesItem from "@/components/Categories-item";
 
 
 const routes = [
@@ -22,10 +23,15 @@ const routes = [
     component: Catalog
   },
   {
-    path: '/Catalog/description',
+    path: '/Catalog/description/:slug',
     name: 'Product-description-item',
     component: ProductDescription
   },
+  {
+    path: '/Catalog/:categories',
+    name: 'Categories-item',
+    component: CategoriesItem
+  }
 
 ]
 

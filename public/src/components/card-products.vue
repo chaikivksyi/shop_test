@@ -1,11 +1,13 @@
 <template>
   <div class="products-wrapper">
       <div class="products" >
-        <router-link to="/Catalog/description" class="product-description">
-        <img class="products-item-img" src="../assets/images/apple13.jpg" alt="img">
-        <h3>Iphone 13</h3>
+
+        <router-link  class="product-description"
+                      :to="{ name: 'Product-description-item', params: { slug: product.title}}">
+        <img class="products-item-img" :src="`http://localhost:5006/uploads/${product.img}`">
+        <h3>{{ product.title }}</h3>
         </router-link>
-        <p>Цена:20$</p>
+        <p>Цена:{{ product.price }}$</p>
         <div class="rating_block">
          <img src="../assets/images/rating.png">
         </div>
@@ -20,7 +22,9 @@
 
 <script>
 export default {
-  name: "card-products"
+  name: "card-products",
+  props: ['product'],
+
 }
 </script>
 

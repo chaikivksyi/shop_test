@@ -5,25 +5,46 @@
         <button>Больше товаров</button>
       </router-link>
     </div>
-    <div class="description-item">
-      <div class="images-description">
-        <img class="img-description" src="../assets/images/apple13.jpg" alt="img">
-      </div>
-      <div class="content-description">
-        <h3>Смартфон Apple iPhone 13 128GB Blue (MLPK3)</h3>
-        <img src="../assets/images/rating.png">
-        <p>Цена:20$</p>
-        <router-link to="/WiCart">
-          <button class="btn-products">Купить</button>
-        </router-link>
+    <div
+         v-for="product of products"
+         :key="product._id">
+      <div class="description-item" v-if="product.title===this.slug">
+        <div class="images-description">
+          <img class="products-item-img" :src="`http://localhost:5006/uploads/${product.img}`">
+        </div>
+        <div class="content-description">
+          <h3>{{product.title}}</h3>
+          <img src="../assets/images/rating.png">
+          <p>Цена:{{ product.price }}$</p>
+          <router-link to="/WiCart">
+            <button class="btn-products">Купить</button>
+          </router-link>
+        </div>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+
+
+import axios from "axios";
+let slug
 export default {
-  name: "Product-description-item"
+  name: "Product-description-item",
+  data() {
+    return {
+      products: [],
+      slug,
+    }
+  },
+  created() {
+   this.slug = this.$route.params.slug;
+    console.log(slug);
+    axios.get('http://localhost:5006/api/products').then((a) => {
+        this.products = a.data.obj
+    })
+  }
 }
 </script>
 
