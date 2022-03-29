@@ -46,7 +46,7 @@
 
 <script>
 export default {
-  name: "images"
+  name: "app-images"
 }
 </script>
 
