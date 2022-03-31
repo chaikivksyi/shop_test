@@ -2,8 +2,8 @@
   <div>
     <h1>Create banner</h1>
     <div class="row">
-      <div class="col-8">
-        <div class="p-5">
+      <div class="col-4">
+        <div class="my-4">
           <div class="d-flex align-items-center">
             <label for="width" class="mx-2">Width: </label>
             <input type="number" id="width" v-model="banner_style.width">
@@ -17,22 +17,34 @@
             <input type="color" id="background" v-model="banner_style.backgroundColor">
           </div>
         </div>
-        <div class="p-5">
-          <div class="d-flex align-items-center">
-            <button class="btn btn-primary" @click="showTextField">Text</button>
-            <button class="btn btn-success" @click="showImageField">Image</button>
-          </div>
-          <div class="d-block">
-            <div class="d-flex align-items-center" v-if="text_element.show">
-              <label for="text" class="mx-2">Text: </label>
-              <input type="text" id="text">
-              <button class="btn btn-info">Add text</button>
-            </div>
-            <div class="d-flex align-items-center" v-if="image_element.show">
-              <label for="img" class="mx-2">Image: </label>
-              <input type="file" id="img">
-            </div>
-          </div>
+        <div >
+          <h3>Elements</h3>
+          <ul class="d-block list-unstyled">
+            <li class="element" data-element="text" @click="addElement">
+              <div class="label">Text</div>
+              <span>Text</span>
+            </li>
+            <li class="element image" data-element="image" @click="addElement">
+              <div class="label">Image</div>
+              <img src="@/assets/img/default.jpg" alt="" class="w-100">
+            </li>
+            <li class="element" data-element="link" @click="addElement">
+              <div class="label">Link</div>
+              <a href="#">Link</a>
+            </li>
+            <li class="element" data-element="list" @click="addElement">
+              <div class="label">List item</div>
+              <ul>
+                <li>Item</li>
+                <li>Item</li>
+                <li>Item</li>
+              </ul>
+            </li>
+            <li class="element" data-element="button" @click="addElement">
+              <div class="label">Button</div>
+              <button>Button</button>
+            </li>
+          </ul>
         </div>
       </div>
       <div class="col-4">
@@ -40,7 +52,7 @@
           width: banner_style.width + 'px',
           height: banner_style.height + 'px',
           backgroundColor: banner_style.backgroundColor,
-        }">
+        }" ref="banner">
 
         </div>
       </div>
@@ -69,25 +81,43 @@ export default {
         textAlign: 'center'
       },
       banner_style: {
-        width: 200,
-        height: 400,
-        backgroundColor: '#000'
+        width: 400,
+        height: 600,
+        backgroundColor: '#ccc0c0'
       }
     }
   },
   methods: {
-    showTextField() {
-      this.image_element.show = false;
-      this.text_element.show = true;
-    },
-    showImageField() {
-      this.image_element.show = true;
-      this.text_element.show = false;
-    }
+    addElement(e) {
+      const el = e.target.closest('.element').lastElementChild.cloneNode(true)
+      el.classList.add('elem')
+      this.elements.push(e.target.getAttribute('data-element'))
+      this.$refs.banner.appendChild(el)
+      }
   }
 }
 </script>
 
 <style scoped>
+  .element {
+    padding: 10px 20px;
+    margin: 10px 0;
+    border: 1px solid #dddddd;
+    cursor: pointer;
+    position: relative;
+  }
+
+  .label {
+    font-size: 12px;
+    position: absolute;
+    top: -10px;
+    left: 0;
+    background: #fff;
+    padding: 0 5px;
+  }
+
+  .elem {
+    display: block;
+  }
 
 </style>
