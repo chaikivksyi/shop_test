@@ -14,7 +14,7 @@
         <div class="d-flex align-items-center navbar-right" style="height: 45px" @click="user_dropdown = !user_dropdown">
           <ul class="navbar-nav d-flex align-items-center">
             <li class="nav-item name">Admin</li>
-            <li class="nav-item mr-0 avatar" @click="">
+            <li class="nav-item mr-0 avatar">
               <img :src="require('@/assets/img/ava.png')" alt="logo">
             </li>
           </ul>
