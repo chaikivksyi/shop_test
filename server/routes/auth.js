@@ -54,6 +54,7 @@ router.post('/login', async (req, res) => {
 })
 
 router.get('/user', async (req, res) => {
+    console.log(req.cookies)
     try {
         const cookie = req.cookies['jwt']
         console.log(req.cookies)

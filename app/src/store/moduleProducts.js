@@ -51,7 +51,8 @@ export default {
         GET_ALL: ({commit, state}) => {
             let urlParams = new URLSearchParams(window.location.search);
             const page = urlParams.get('page') ? urlParams.get('page') : 1;
-            productsResources.getAllProducts(page, state.pages.limit)
+            const category = urlParams.get('category') ? urlParams.get('category') : 'all';
+            productsResources.getAllProducts(page, state.pages.limit, category)
                 .then(response => {
                     commit('set_products', response.data.obj);
                     commit('set_count_products', response.data.count);
@@ -75,17 +76,23 @@ export default {
             })
         },
         ADD: ({commit, dispatch}, payload) => {
-            productsResources.addProduct(payload.product).then(() => {
-                if(payload.file) {
-                    productsResources.uploadImage(payload.file).then(() => {})
-                }
-                commit('set_product', default_product);
-                dispatch('GET_ALL', {page: 1, limit: 5});
-                commit('toggle_popup', false)
-                Note('Product added!!!')
-            }).catch(err => {
-                console.log(err)
-            });
+            if(payload.file) {
+                productsResources.uploadImage(payload.file).then(() => {
+                    productsResources.addProduct(payload.product).then(() => {
+                        commit('set_product', default_product);
+                        dispatch('GET_ALL', {page: 1, limit: 5});
+                        commit('toggle_popup', false)
+                        Note('Product added!!!')
+                    })
+                })
+            }else {
+                productsResources.addProduct(payload.product).then(() => {
+                    commit('set_product', default_product);
+                    dispatch('GET_ALL', {page: 1, limit: 5});
+                    commit('toggle_popup', false)
+                    Note('Product added!!!')
+                })
+            }
         },
         REMOVE: ({dispatch}, id) => {
             productsResources.deleteProduct(id).then(() => {
@@ -96,14 +103,17 @@ export default {
               });
         },
         UPDATE: (context, payload) => {
-            new Promise.all([
-                productsResources.uploadImage(payload.file),
-                productsResources.updateProduct(payload.product._id, payload.product)
-            ]).then(() => {
-                Note('Product updated!!!')
-            })
-
-
+            if(payload.file) {
+                productsResources.uploadImage(payload.file).then(() => {
+                    productsResources.updateProduct(payload.product._id, payload.product).then(() => {
+                        Note('Product updated!!!')
+                    })
+                })
+            }else {
+                productsResources.updateProduct(payload.product._id, payload.product).then(() => {
+                    Note('Product updated!!!')
+                })
+            }
         },
         TOGGLE_POPUP: ({commit}, payload) => {commit('toggle_popup', payload)},
     }

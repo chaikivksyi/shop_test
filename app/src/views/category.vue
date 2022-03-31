@@ -1,6 +1,5 @@
 <template>
   <div>
-    <h1>Categories</h1>
     <form @submit.prevent method="post" class="m-3">
       <div class="form-group mb-3">
         <label for="name">Name</label>
