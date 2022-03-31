@@ -5,10 +5,7 @@
         <button>Больше товаров</button>
       </router-link>
     </div>
-    <div
-         v-for="product of products"
-         :key="product._id">
-      <div class="description-item" v-if="product.title===this.slug">
+      <div class="description-item" >
         <div class="images-description">
           <img class="products-item-img" :src="`http://localhost:5006/uploads/${product.img}`">
         </div>
@@ -19,7 +16,6 @@
           <router-link to="/WiCart">
             <button class="btn-products">Купить</button>
           </router-link>
-        </div>
       </div>
     </div>
   </div>
@@ -34,15 +30,14 @@ export default {
   name: "Product-description-item",
   data() {
     return {
-      products: [],
+      product: null,
       slug,
     }
   },
   created() {
-   this.slug = this.$route.params.slug;
-    console.log(slug);
-    axios.get('http://localhost:5006/api/products').then((a) => {
-        this.products = a.data.obj
+    const id = this.$route.params.slug
+    axios.get(`http://localhost:5006/api/products/detail/${id}`).then((a) => {
+        this.product = a.data
     })
   }
 }

@@ -6,10 +6,9 @@
                     :key="category._id"
                     :product="category"
       />
-      <h1>pagination</h1>
-      <Pagination :countPages="countPages" :activePagination="Number(this.$route.query.page) || 1" @changePage="changePage" />
     </div>
-
+    <h1>pagination</h1>
+    <Pagination :countPages="countPages" :activePagination="Number(this.$route.query.page) || 1" @changePage="changePage" />
   </div>
 
 </template>
@@ -48,10 +47,13 @@ export default {
     '$route.params.categories': {
       immediate: true,
       handler() {
-        this.categories = this.$route.params.categories;
-        axios.get('http://localhost:5006/api/products?page=1&limit=5').then((a) => {
-          this.categoryItem = a.data.obj})
-        console.log(this.categories)
+        const { categories = 'all' } = this.$route.params
+        const { page = 1, limit = 5 } = this.$route.query
+        setTimeout(() => {
+          axios.get(`http://localhost:5006/api/products?page=${page}&limit=${limit}&category=${categories}`).then((a) => {
+            this.categoryItem = a.data.obj})
+          console.log(this.categories)
+        }, 1000)
       },
     },
   },
@@ -62,6 +64,6 @@ export default {
 .categories-item-wrapper{
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-around;
+  justify-content: start;
 }
 </style>
