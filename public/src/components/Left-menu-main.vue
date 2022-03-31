@@ -1,7 +1,8 @@
 <template>
 <div class="left-menu">
     <h1>Каталог</h1>
-    <div v-for="category of categories"
+  <hr>
+    <div class="category-menu" v-for="category of categories"
         :key="category._id">
       <router-link  class="category-description"
                     :to="{ name: 'Categories-item', params: { categories: category.name}}">
@@ -42,5 +43,8 @@ export default {
   color:white;
   height: 50px;
   text-decoration: none;
+}
+.category-description:hover{
+  text-shadow: #000 1px 0 0px, #000 0 1px 0px, #000 -1px 0 0px, #000 0 -1px 0px;
 }
 </style>

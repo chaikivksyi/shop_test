@@ -2,6 +2,8 @@ import { createRouter, createWebHistory } from 'vue-router'
 import Home from '../views/Home.vue';
 import WiCart from '../views/Wicart.vue';
 import Catalog from '../views/Catalog';
+import User from '../views/User-profile';
+import Favorites from '../views/Favorites';
 import ProductDescription from '../components/Product-description-item';
 import CategoriesItem from "@/components/Categories-item";
 
@@ -23,7 +25,17 @@ const routes = [
     component: Catalog
   },
   {
-    path: '/Catalog/description/:slug',
+    path: '/User',
+    name: 'User-profile',
+    component: User
+  },
+  {
+    path: '/Favorites',
+    name: 'Favorites-products',
+    component: Favorites
+  },
+  {
+    path: '/Catalog/:categories/:slug',
     name: 'Product-description-item',
     component: ProductDescription
   },

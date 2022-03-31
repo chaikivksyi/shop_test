@@ -1,12 +1,12 @@
 <template>
-  <v-app>
+  <div>
     <HeaderMain/>
     <div class="main-content">
       <LeftMenu/>
       <ContentMain/>
     </div>
     <FooterMain/>
-  </v-app>
+  </div>
 
 </template>
 
