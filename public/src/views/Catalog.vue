@@ -29,8 +29,6 @@ export default {
     const { page = 1, limit = 10 } = this.$route.query
     axios.get(`http://localhost:5006/api/products?page=${page}&limit=${limit}&category=${categories}`).then((a) => {
       this.products = a.data.obj
-      console.log( 1)
-      console.log( this.products)
     })
   }
 }

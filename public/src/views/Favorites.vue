@@ -1,5 +1,6 @@
 <template>
 <div class="favorite-empty">
+  {{  }}
   <h1>У Вас нет избранных товаров</h1>
   <router-link to="/Catalog" >
   <button class="btn">ПЕРЕЙТИ В КАТАЛОГ</button>
@@ -9,7 +10,15 @@
 
 <script>
 export default {
-  name: "Favorites-products"
+  name: "Favorites-products",
+  data() {
+    return {
+      list: null
+    }
+  },
+  created() {
+    this.list = sessionStorage.getItem('wishList');
+  }
 }
 </script>
 

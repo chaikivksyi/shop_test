@@ -2,27 +2,41 @@
   <div class="order-item-wrapper">
     <img class="order-item-img" :src="`http://localhost:5006/uploads/${product.img}`">
     <div class="order-item-description">
-      <router-link to="/Catalog/description" class="product-description">
+      <router-link  class="product-description"
+                    :to="{ name: 'Product-description-item', params: { categories:product.category, slug: product.title,slugId:product._id}}">
         <h3>{{ product.title }}</h3>
       </router-link>
       <p>Цена:{{ product.price }}$</p>
       <p>Количество:
-        <input class="input-edit-order" type="text"  required>шт.</p>
+        <input  id="inputCount" class="input-edit-order" type="number" value="1">шт.</p>
       <p> Сума:{{ product.price }}$</p>
       <div class="btn-item">
-        <v-btn type="button" class=" btn btn-delete btn-card">X</v-btn>
+        <button type="button" @click="$emit('remove', product.title)" class=" btn btn-delete btn-card">X</button>
       </div>
     </div>
 </div>
 </template>
 
-<script>
+    <script>
 
 
-export default {
-  name: "WiCart-item",
-  props: ['product'],
-}
+      export default {
+        name: "WiCart-item",
+        data: function() {
+          return {
+            count: Number,
+            priceProduct:Number,
+            suma:Number
+          }
+        },
+        props: ['product'],
+      created() {
+
+      },
+        methods:{
+
+        }
+    }
 </script>
 
 <style scoped>
@@ -48,6 +62,7 @@ export default {
   height: 80px;
 }
 .btn-card{
+  float: right;
   margin-bottom: 14px;
   width: 40px;
   padding: 10px;

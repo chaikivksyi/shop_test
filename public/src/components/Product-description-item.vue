@@ -35,7 +35,7 @@ export default {
     }
   },
   created() {
-    const id = this.$route.params.slug
+    const id = this.$route.params.slugId
     axios.get(`http://localhost:5006/api/products/detail/${id}`).then((a) => {
         this.product = a.data
     })
