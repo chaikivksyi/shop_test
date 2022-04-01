@@ -11,6 +11,10 @@ const ProductSchema = new mongoose.Schema({
         required: true
     },
     category: String,
+    wish: {
+        type: Boolean,
+        default: false
+    },
     img: {
         type: String,
         default: 'default.jpg'

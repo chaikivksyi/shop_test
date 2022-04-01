@@ -5,6 +5,7 @@
       <CardProducts v-for="product of products"
                     :key="product._id"
                     :product="product"
+                    @addToWish="addToWish"
       />
     </div>
   </div>
@@ -23,6 +24,15 @@ export default {
   },
   components:{
     CardProducts
+  },
+  methods: {
+    addToWish(result) {
+      this.products.map((item) => {
+        if(item._id == result.id) {
+          item.wish = !result.status
+        }
+      })
+    }
   },
   created(){
     const { categories = 'all' } = this.$route.params
